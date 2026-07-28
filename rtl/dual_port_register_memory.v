@@ -22,11 +22,7 @@ module dual_port_register_memory#(
         genvar i;
 
         for (i = 0; i < MEMORY_DEPTH; i = i + 1) begin 
-            always@(posedge clk) begin
-                // if((addr0 == addr1) && (we0 == 1 && we1 == 1)) begin
-                //  memory[addr0] <= 'x;	
-                // end 
-                
+            always@(posedge clk) begin 
                 if (we0 == 1) begin	
                     if (addr0 == i) begin
                         memory[i] <= wdata0;
@@ -35,24 +31,6 @@ module dual_port_register_memory#(
             end
             // This is the reading block
             always@(*) begin
-//                if((addr0 == addr1) && (we0 == 1 && we1 == 1)) begin
-//                    rdata1 = 'x;
-//                    rdata0 = 'x;
-//                end 
-//
-//                else if (we0 == 0  && we1 == 1) begin	
-//                    if( addr0 == addr1 ) begin 
-//                        rdata0 = 'x;
-//                    end
-//                end 
-//
-//                else if (we0 == 1 && we1 == 0) begin	
-//                    if( addr1 == addr0 ) begin
-//                        rdata1 = 'x;
-//                    end
-//                end 
-
-//              else begin
                 if (we0 == 0) begin
                     rdata1 = memory[addr1];
                 end
@@ -63,43 +41,4 @@ module dual_port_register_memory#(
         end
 	endgenerate 
 
-	// This is the write block
-	// always@(posedge clk) begin
-	// 	if((addr0 == addr1) && (we0 == 1 && we1 == 1)) begin
-	// 		memory[addr0] <= 'x;	
-	// 	end 
-	// 	
-	// 	else if (we0 == 0  && we1 == 1) begin	
-	// 		memory[addr1] <= wdata1;
-	// 	end 
-
-	// 	else if (we0 == 1 && we1 == 0) begin	
-	// 		memory[addr0] <= wdata0;
-	// 	end
-	// end
-
-	// // This is the reading block
-	// always@(*) begin
-	// 	if((addr0 == addr1) && (we0 == 1 && we1 == 1)) begin
-	// 		rdata1 = 'x;
-	// 		rdata0 = 'x;
-	// 	end 
-
-	// 	else if (we0 == 0  && we1 == 1) begin	
-	// 		if( addr0 == addr1 ) begin 
-	// 			rdata0 = 'x;
-	// 		end
-	// 	end 
-
-	// 	else if (we0 == 1 && we1 == 0) begin	
-	// 		if( addr1 == addr0 ) begin
-	// 			rdata1 = 'x;
-	// 		end
-	// 	end 
-
-	// 	else begin
-	// 		rdata0 = memory[addr0];
-	// 		rdata1 = memory[addr1];
-	// 	end
-	// end
 endmodule
