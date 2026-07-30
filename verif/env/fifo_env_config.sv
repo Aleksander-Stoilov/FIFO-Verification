@@ -5,7 +5,7 @@ class fifo_env_config extends uvm_object;
     fifo_wr_agent_config wr_cfg; 
     fifo_rd_agent_config rd_cfg;
 
-    function new(string name = "fifo_env_cfg");
+    function new(string name = "env_cfg");
         super.new(name);
     endfunction //new() 
 

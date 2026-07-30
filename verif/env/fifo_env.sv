@@ -25,6 +25,10 @@ class fifo_env extends uvm_env;
 
 		uvm_config_db#(fifo_wr_agent_config)::set(this, "wr_agent", "wr_agent_cfg", env_cfg.wr_cfg);
 		uvm_config_db#(fifo_rd_agent_config)::set(this, "rd_agent", "rd_agent_cfg", env_cfg.rd_cfg);
+		$display("RD_AGENT_CONFIG WAS SET");
+
+		// env_cfg.wr_cfg = wr_agt_conf;
+		// env_cfg.rd_cfg = rd_agt_conf;
 
 		`uvm_info(get_name(), $sformatf ("Build phase ran!"), UVM_MEDIUM);
 	endfunction

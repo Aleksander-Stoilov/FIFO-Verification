@@ -1,6 +1,6 @@
-interface fifo_rd_if #(parameter DATA_WIDTH = 4)(
+interface fifo_rd_if #(parameter DATA_WIDTH = 8)(
 	input logic clk,
-	input logic rst
+	input logic rst_n
 );
 
 	logic re, empty;

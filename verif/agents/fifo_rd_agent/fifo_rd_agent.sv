@@ -13,19 +13,20 @@ class fifo_rd_agent extends uvm_agent;
 
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
+		`uvm_info(get_name(), $sformatf ("Read Agent build phase ran!"), UVM_MEDIUM);
+
 		rd_monitor = fifo_rd_monitor::type_id::create("rd_monitor", this);
 		rd_driver = fifo_rd_driver::type_id::create("rd_driver", this);
 		rd_sequencers = fifo_rd_sequencers::type_id::create("rd_sequencers", this);
 
 		if(!uvm_config_db#(fifo_rd_agent_config)::get(this, "", "rd_agent_cfg", rd_cfg)) begin
-			`uvm_fatal("NOVIF", "no config was found for rd_cfg");
+			`uvm_fatal("NOCFG", "no config found for rd_agent");
 		end
 
-		uvm_config_db#(virtual fifo_rd_if)::set(this, "rd_monitor", "rd_vif", rd_cfg.rd_vif);
+		uvm_config_db#(virtual fifo_rd_if#())::set(this, "rd_monitor", "rd_vif", rd_cfg.rd_vif);
 
-		uvm_config_db#(virtual fifo_rd_if)::set(this, "rd_driver", "rd_vif", rd_vif);
+		uvm_config_db#(virtual fifo_rd_if#())::set(this, "rd_driver", "rd_vif", rd_cfg.rd_vif);
 
-		`uvm_info(get_name(), $sformatf ("Read Agent build phase ran!"), UVM_MEDIUM);
 	endfunction
 
 	virtual function void connect_phase(uvm_phase phase);
