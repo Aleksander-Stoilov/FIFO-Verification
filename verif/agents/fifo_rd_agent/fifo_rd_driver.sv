@@ -1,4 +1,4 @@
-class fifo_rd_driver extends uvm_driver;
+class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 	`uvm_component_utils(fifo_rd_driver)	
 
 	virtual fifo_rd_if#() internal_vif;

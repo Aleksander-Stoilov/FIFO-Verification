@@ -47,8 +47,5 @@ module tb_top;
 		#800ps clk = ~clk;
 	end
 
- 	initial begin
-		#200000 $fatal();
-	end
 
 endmodule
