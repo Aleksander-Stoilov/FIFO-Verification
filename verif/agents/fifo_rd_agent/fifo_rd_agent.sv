@@ -32,9 +32,11 @@ class fifo_rd_agent extends uvm_agent;
 	virtual function void connect_phase(uvm_phase phase);
 		super.connect_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Read Agent connection phase ran!"), UVM_MEDIUM);
+		rd_driver.seq_item_port.connect(rd_sequencers.seq_item_export);
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
+	 	super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Read Agent run phase"), UVM_MEDIUM);
 	endtask
 

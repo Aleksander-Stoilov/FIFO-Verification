@@ -12,11 +12,9 @@ class fifo_write_test extends fifo_base_test;
         super.build_phase(phase);
 
         seq = fifo_wr_sequence::type_id::create("wr_sequence");
-        if(!uvm_config_db#(int)::get(this, "", "TR_NUM", tr_num)) begin
-            `uvm_fatal("GET_ADDR_ERR", "Failed to get address width from config db");
-        end
+        if($value$plusargs("wr_tr_num=%d", seq.number_of_transactions));
         else begin
-            seq.number_of_transactions = (2 ** tr_num);
+            seq.number_of_transactions = 50;
         end
 
         if($value$plusargs("wr_en_dist=%d", seq.wr_en_distribution));

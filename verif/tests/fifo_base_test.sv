@@ -51,6 +51,7 @@ class fifo_base_test extends uvm_test;
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
+		super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Base test Run Phase Ran"), UVM_MEDIUM);
 	endtask
 endclass : fifo_base_test
