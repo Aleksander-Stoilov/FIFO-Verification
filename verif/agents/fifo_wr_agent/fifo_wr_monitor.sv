@@ -23,34 +23,29 @@ class fifo_wr_monitor extends uvm_monitor;
 	endfunction
 
 	virtual task run_phase(uvm_phase phase); 
-		// fifo_wr_transaction_item#() tr;
+		fifo_wr_transaction_item#() tr;
 		super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Monitor run phase ran!"), UVM_MEDIUM);
 
-		// @(negedge internal_vif.rst_n) begin
-		// 	`uvm_info(get_type_name(), "Reset asserted, from wr_monitor", UVM_LOW)
-		// end
+		@(negedge internal_vif.rst_n) begin
+			`uvm_info(get_type_name(), "Reset asserted, from wr_monitor", UVM_LOW)
+		end
 
-		// @(posedge internal_vif.rst_n) begin
-		// 	`uvm_info(get_type_name(), "Reset de-asserted, from wr_monitor", UVM_LOW)
-		// end
+		@(posedge internal_vif.rst_n) begin
+			`uvm_info(get_type_name(), "Reset de-asserted, from wr_monitor", UVM_LOW)
+		end
 
-		// wait(internal_vif.rst_n);
-
-
-		// @(posedge internal_vif.clk) begin
-		// 	forever begin
-		// 		@(posedge internal_vif.clk) begin
-		// 			if(internal_vif.rst_n && internal_vif.we) begin
-		// 				tr = fifo_wr_transaction_item#()::type_id::create("ap transaction");
-		// 				tr.wr_en = internal_vif.we;
-		// 				tr.wdata = internal_vif.wrdata;
-		// 				tr.full = internal_vif.full;
-		// 				ap.write(tr);
-		// 				`uvm_info(get_name(), $sformatf("wr_transaction passed, wr_en=%0b, wdata=%b, full=%b", tr.wr_en, tr.wdata, tr.full), UVM_HIGH);
-		// 			end	
-		// 		end
-		// 	end
-		// end
+			forever begin
+				@(posedge internal_vif.clk) begin
+					if(internal_vif.rst_n && internal_vif.we) begin
+						tr = fifo_wr_transaction_item#()::type_id::create("ap transaction");
+						tr.wr_en = internal_vif.we;
+						tr.wdata = internal_vif.wrdata;
+						tr.full = internal_vif.full;
+						ap.write(tr);
+						`uvm_info(get_name(), $sformatf("\nwr_transaction passed, \nwr_en=%0b, \nwdata=%b, \nfull=%b", tr.wr_en, tr.wdata, tr.full), UVM_HIGH);
+					end	
+				end
+			end
 	endtask
 endclass

@@ -36,7 +36,6 @@ class fifo_rd_agent extends uvm_agent;
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
-	 	super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Read Agent run phase"), UVM_MEDIUM);
 	endtask
 

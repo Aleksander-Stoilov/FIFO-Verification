@@ -22,7 +22,6 @@ class fifo_rd_monitor extends uvm_monitor;
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
-		super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Monitor run phase ran!"), UVM_MEDIUM);
 		@(negedge internal_vif.rst_n) begin
 			`uvm_info(get_type_name(), "Reset asserted, from rd_monitor", UVM_LOW)

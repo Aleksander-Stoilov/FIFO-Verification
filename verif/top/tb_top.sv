@@ -1,7 +1,7 @@
 module tb_top;
 
 	parameter DATA_WIDTH = 8;
-	parameter ADDR_WIDTH = 2;
+	parameter ADDR_WIDTH = 4;
 	parameter TR_NUM = ADDR_WIDTH;
 
 	import uvm_pkg::*;
@@ -16,7 +16,7 @@ module tb_top;
 	initial begin
 		uvm_config_db#(virtual fifo_wr_if#())::set(null, "uvm_test_top", "wr_if", wr_if);
 		uvm_config_db#(virtual fifo_rd_if#())::set(null, "uvm_test_top", "rd_if", rd_if);
-		run_test("fifo_write_read_test");
+		run_test("fifo_write_test");
 	end
 
 	fifo #(

@@ -22,7 +22,6 @@ class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 	endfunction
 
 	virtual task run_phase(uvm_phase phase);
-		super.run_phase(phase);
 		`uvm_info(get_name(), $sformatf ("Driver run phase ran"), UVM_MEDIUM);
 
 		while(!internal_vif.rst_n)
