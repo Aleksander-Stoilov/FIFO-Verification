@@ -39,8 +39,7 @@ class fifo_rd_monitor extends uvm_monitor;
 
 		forever begin
 			@(posedge internal_vif.clk) begin
-				if(internal_vif.rst_n && internal_vif.re) begin
-					@(posedge internal_vif.clk);
+				if(internal_vif.re_delayed && !internal_vif.empty_delayed) begin
 					tr = fifo_rd_transaction_item#()::type_id::create("ap transaction");
 					tr.re = internal_vif.re;
 					tr.rdata = internal_vif.rdata;

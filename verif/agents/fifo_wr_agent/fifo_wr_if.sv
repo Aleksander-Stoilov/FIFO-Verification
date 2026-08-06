@@ -1,4 +1,4 @@
-interface fifo_wr_if #(parameter DATA_WIDTH = 8) ( 
+interface fifo_wr_if #(parameter DATA_WIDTH = 4) ( 
 	input logic clk,
 	input logic rst_n
 );

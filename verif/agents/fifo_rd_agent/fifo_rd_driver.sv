@@ -21,40 +21,65 @@ class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 		`uvm_info(get_name(), $sformatf ("Driver connection phase ran!"), UVM_MEDIUM);
 	endfunction
 
+	task update_delay_signals();
+			@(posedge internal_vif.clk);
+
+			if(!internal_vif.rst_n) begin
+				internal_vif.re_delayed <= 0;
+				internal_vif.empty_delayed <= 1;
+			end	
+			else begin
+				internal_vif.re_delayed <= internal_vif.re;
+				internal_vif.empty_delayed <= internal_vif.empty;
+			end
+	endtask
+
 	virtual task run_phase(uvm_phase phase);
 		`uvm_info(get_name(), $sformatf ("Driver run phase ran"), UVM_MEDIUM);
 
-		while(!internal_vif.rst_n)
-			@(posedge internal_vif.clk);
-
-		forever begin
-			seq_item_port.get_next_item(tr);
-			@(posedge internal_vif.clk);
-			while(!internal_vif.rst_n) begin
-				internal_vif.re <= 0;
-				internal_vif.rdata <= 0;
-				@(posedge internal_vif.clk);
-			end
-
-			if(!tr.re) begin
-				internal_vif.re <= 0;
-			end
-			else begin
-				while(internal_vif.empty)
-					@(posedge internal_vif.clk);
-
-				internal_vif.re <= 1;
-				internal_vif.rdata <= tr.rdata;
-			end
-			seq_item_port.item_done();
+		@(negedge internal_vif.rst_n) begin
+			`uvm_info(get_type_name(), "Reset asserted, from rd_drive", UVM_LOW);
+			internal_vif.re <= 0;
+			internal_vif.re_delayed <= 0;
+			internal_vif.empty <= 1;
+			internal_vif.empty_delayed <= 1;
 		end
 
-		// @(negedge internal_vif.rst_n) begin
-		// 	`uvm_info(get_type_name(), "Reset asserted, from rd_drive", UVM_LOW)
-		// end
+		@(posedge internal_vif.rst_n) begin
+			`uvm_info(get_type_name(), "Reset de-asserted, from rd_drive", UVM_LOW);
+		end
 
-		// @(posedge internal_vif.rst_n) begin
-		// 	`uvm_info(get_type_name(), "Reset de-asserted, from rd_drive", UVM_LOW)
-		//end
+		forever begin
+			seq_item_port.try_next_item(tr);
+			if(tr != null) begin	
+				@(posedge internal_vif.clk);
+
+				update_delay_signals();
+
+				while(!internal_vif.rst_n) begin
+					internal_vif.re <= 0;
+					internal_vif.rdata <= 0;
+					@(posedge internal_vif.clk);
+				end
+
+				if(!tr.re) begin
+					internal_vif.re <= 0;
+				end
+				else begin
+					while(internal_vif.empty)
+						@(posedge internal_vif.clk);
+
+					internal_vif.re <= 1;
+					internal_vif.rdata <= tr.rdata;
+				end
+
+				
+				seq_item_port.item_done();
+			end
+			else begin
+				internal_vif.re <= 0;
+			end
+		end
+
 	endtask
 endclass

@@ -1,7 +1,7 @@
 module tb_top;
 
-	parameter DATA_WIDTH = 8;
-	parameter ADDR_WIDTH = 4;
+	parameter DATA_WIDTH = 4;
+	parameter ADDR_WIDTH = 2;
 
 	import uvm_pkg::*;
 	import fifo_tests_pkg::*;

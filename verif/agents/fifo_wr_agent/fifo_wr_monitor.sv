@@ -30,6 +30,7 @@ class fifo_wr_monitor extends uvm_monitor;
 
 		@(negedge internal_vif.rst_n) begin
 			`uvm_info(get_type_name(), "Reset asserted, from wr_monitor", UVM_LOW)
+			
 		end
 
 		@(posedge internal_vif.rst_n) begin
@@ -38,7 +39,7 @@ class fifo_wr_monitor extends uvm_monitor;
 
 		forever begin
 			@(posedge internal_vif.clk) begin
-				if(internal_vif.rst_n && internal_vif.we) begin
+				if(internal_vif.we) begin
 					tr = fifo_wr_transaction_item#()::type_id::create("ap transaction");
 					tr.wr_en = internal_vif.we;
 					tr.wdata = internal_vif.wrdata;
