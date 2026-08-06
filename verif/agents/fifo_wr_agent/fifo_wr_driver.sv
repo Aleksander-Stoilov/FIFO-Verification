@@ -43,8 +43,9 @@ class fifo_wr_driver extends uvm_driver#(fifo_wr_transaction_item#());
 				internal_vif.we <= 0;
 			end
 			else begin
-				while(internal_vif.full && internal_vif.rst_n)
+				while(internal_vif.full) begin					
 					@(posedge internal_vif.clk);
+				end
 
 				internal_vif.we <= 1;
 				internal_vif.wrdata <= tr.wdata;

@@ -15,6 +15,9 @@
         +incdir+../sequences/
         ../sequences/fifo_sequence_pkg.sv
 
+        +incdir+../scoreboard/
+        ../scoreboard/fifo_scoreboard_pkg.sv
+
         +incdir+../env/
         ../env/fifo_env_config_pkg.sv
         ../env/fifo_env_pkg.sv

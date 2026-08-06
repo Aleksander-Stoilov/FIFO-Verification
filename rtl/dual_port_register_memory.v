@@ -29,16 +29,17 @@ module dual_port_register_memory#(
                     end
                 end
             end
-            // This is the reading block
-            always@(*) begin
-                if (we0 == 0) begin
-                    rdata1 = memory[addr1];
-                end
-                else begin
-                    rdata1 = 0;
-                end
-            end
         end
 	endgenerate 
+
+    // This is the reading block
+    always@(posedge clk) begin
+        // if (we0 == 0) begin
+            rdata1 <= memory[addr1];
+        // end
+        // else begin
+        //     rdata1 = 0;
+        // end
+    end
 
 endmodule

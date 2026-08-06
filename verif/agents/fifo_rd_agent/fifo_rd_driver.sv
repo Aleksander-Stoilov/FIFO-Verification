@@ -40,7 +40,7 @@ class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 				internal_vif.re <= 0;
 			end
 			else begin
-				while(internal_vif.empty || !internal_vif.rst_n)
+				while(internal_vif.empty)
 					@(posedge internal_vif.clk);
 
 				internal_vif.re <= 1;
