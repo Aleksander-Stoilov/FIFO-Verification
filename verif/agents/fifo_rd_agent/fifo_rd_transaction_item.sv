@@ -1,7 +1,7 @@
-class fifo_rd_transaction_item#(parameter DATA_WIDTH=4) extends uvm_sequence_item;
+class fifo_rd_transaction_item#(parameter DATA_WIDTH_P = 4) extends uvm_sequence_item;
 
 	rand bit re;
-	rand bit [DATA_WIDTH-1:0] rdata;
+	rand bit [DATA_WIDTH_P-1:0] rdata;
 	bit empty;
 	int rd_en_distribution;
 
@@ -12,7 +12,7 @@ class fifo_rd_transaction_item#(parameter DATA_WIDTH=4) extends uvm_sequence_ite
 		};
 	}
 
-	`uvm_object_utils_begin(fifo_rd_transaction_item#(DATA_WIDTH))
+	`uvm_object_utils_begin(fifo_rd_transaction_item#(DATA_WIDTH_P))
 		`uvm_field_int(re, UVM_ALL_ON)
 		`uvm_field_int(rdata, UVM_ALL_ON)
 		`uvm_field_int(empty, UVM_ALL_ON)

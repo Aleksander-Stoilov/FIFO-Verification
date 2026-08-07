@@ -26,7 +26,7 @@ module fifo #(
     )  
     mem_model (
         .clk(clk),
-        .we0(we),
+        .we0(we && !full),
         .addr0(WrPtr[ADDR_WIDTH-1:0]),
         .wdata0(wrdata),
         .rdata0(unused1),
@@ -57,16 +57,16 @@ module fifo #(
 
     always@(*) begin
         if (WrPtr[ADDR_WIDTH] == RdPtr[ADDR_WIDTH] && WrPtr[ADDR_WIDTH-1:0] == RdPtr[ADDR_WIDTH-1:0]) begin
-            empty <= 1'b1;
+            empty = 1'b1;
         end
         else begin
-            empty <= 1'b0;
+            empty = 1'b0;
         end
         if (WrPtr[ADDR_WIDTH] != RdPtr[ADDR_WIDTH] && (WrPtr[ADDR_WIDTH-1:0] == RdPtr[ADDR_WIDTH-1:0])) begin
-            full <= 1'b1;
+            full = 1'b1;
         end
         else begin
-            full <= 1'b0;
+            full = 1'b0;
         end
     end
 

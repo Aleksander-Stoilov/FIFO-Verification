@@ -5,7 +5,7 @@ class fifo_wr_agent extends uvm_agent;
 	fifo_wr_driver wr_driver;
 	fifo_wr_sequencers wr_sequencers;
 
-	virtual fifo_wr_if#() wr_vif;
+	virtual fifo_wr_if#(DATA_WIDTH_P) wr_vif;
 	fifo_wr_agent_config wr_cfg;
 
 	function new(string name, uvm_component parent);
@@ -26,9 +26,9 @@ class fifo_wr_agent extends uvm_agent;
 
 		wr_vif = wr_cfg.my_vif;
 
-		uvm_config_db#(virtual fifo_wr_if#())::set(this, "wr_monitor", "wr_vif", wr_vif);
+		uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::set(this, "wr_monitor", "wr_vif", wr_vif);
 
-		uvm_config_db#(virtual fifo_wr_if#())::set(this, "wr_driver", "wr_vif", wr_vif);
+		uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::set(this, "wr_driver", "wr_vif", wr_vif);
 	endfunction
 
 	virtual function void connect_phase(uvm_phase phase);

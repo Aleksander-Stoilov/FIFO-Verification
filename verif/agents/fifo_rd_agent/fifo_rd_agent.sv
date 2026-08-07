@@ -23,9 +23,9 @@ class fifo_rd_agent extends uvm_agent;
 			`uvm_fatal("NOCFG", "no config found for rd_agent");
 		end
 
-		uvm_config_db#(virtual fifo_rd_if#())::set(this, "rd_monitor", "rd_vif", rd_cfg.rd_vif);
+		uvm_config_db#(virtual fifo_rd_if#(DATA_WIDTH_P))::set(this, "rd_monitor", "rd_vif", rd_cfg.rd_vif);
 
-		uvm_config_db#(virtual fifo_rd_if#())::set(this, "rd_driver", "rd_vif", rd_cfg.rd_vif);
+		uvm_config_db#(virtual fifo_rd_if#(DATA_WIDTH_P))::set(this, "rd_driver", "rd_vif", rd_cfg.rd_vif);
 
 	endfunction
 

@@ -1,4 +1,4 @@
-class fifo_wr_sequence extends uvm_sequence #(fifo_wr_transaction_item);
+class fifo_wr_sequence extends uvm_sequence #(fifo_wr_transaction_item#());
     `uvm_object_utils(fifo_wr_sequence)
 
     int wr_en_distribution;
@@ -23,7 +23,7 @@ class fifo_wr_sequence extends uvm_sequence #(fifo_wr_transaction_item);
                 number_of_transactions--;
             end
        end
-    endtask //body
+    endtask 
 
 
 endclass : fifo_wr_sequence

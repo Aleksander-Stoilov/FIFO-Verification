@@ -1,6 +1,9 @@
 
         ../../rtl/fifo.v
         ../../rtl/dual_port_register_memory.v
+
+        ../top/tb_params_pkg.sv
+
         ../agents/fifo_wr_agent/fifo_wr_if.sv
         ../agents/fifo_rd_agent/fifo_rd_if.sv
 
@@ -26,3 +29,4 @@
         ../tests/fifo_tests_pkg.sv
 
         ../top/tb_top.sv
+        ../top/checker.sv

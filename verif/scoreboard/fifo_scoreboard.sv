@@ -40,18 +40,22 @@ class fifo_scoreboard extends uvm_scoreboard;
     endfunction
 
     function void write_WR(fifo_wr_transaction_item tr);
-        `uvm_info("SCB", $sformatf("Transaction write data: %b", tr.wdata), UVM_LOW);
+        `uvm_info("SCB", $sformatf("Transaction write data: %h", tr.wdata), UVM_LOW);
         wr_count++;
+        `uvm_info("SCB", $sformatf("Before push Queue: %p", tr_data), UVM_LOW);
         tr_data.push_front(tr.wdata);
+        `uvm_info("SCB", $sformatf("After push Queue: %p", tr_data), UVM_LOW);
     endfunction
 
     logic [3:0] data;
     function void write_RD(fifo_rd_transaction_item tr);
-        `uvm_info("SCB", $sformatf("Transaction read data: %b", tr.rdata), UVM_LOW);
+        `uvm_info("SCB", $sformatf("Transaction read data: %h", tr.rdata), UVM_LOW);
         rd_count++;
+        `uvm_info("SCB", $sformatf("Before pop Queue: %p", tr_data), UVM_LOW);
         data = tr_data.pop_back();
+        `uvm_info("SCB", $sformatf("After pop Queue: %p", tr_data), UVM_LOW);
         if(tr.rdata != data) begin
-            `uvm_error(get_type_name(), $sformatf("Mismatch. Expected: %b DUT %b", data, tr.rdata));
+            `uvm_error(get_type_name(), $sformatf("Mismatch. Expected: %h DUT %h", data, tr.rdata));
         end
     endfunction
 

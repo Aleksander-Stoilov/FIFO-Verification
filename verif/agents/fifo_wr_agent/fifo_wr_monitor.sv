@@ -2,7 +2,7 @@ class fifo_wr_monitor extends uvm_monitor;
 	`uvm_component_utils(fifo_wr_monitor)
 	uvm_analysis_port#(fifo_wr_transaction_item) ap;
 
-	virtual fifo_wr_if#() internal_vif;
+	virtual fifo_wr_if#(DATA_WIDTH_P) internal_vif;
 
 	function new (string name, uvm_component parent);
 		super.new(name, parent);
@@ -11,7 +11,7 @@ class fifo_wr_monitor extends uvm_monitor;
 
 	virtual function void build_phase(uvm_phase phase);
 		super.build_phase(phase);
-		if(!uvm_config_db#(virtual fifo_wr_if#())::get(this, "", "wr_vif", internal_vif)) begin
+		if(!uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::get(this, "", "wr_vif", internal_vif)) begin
 			`uvm_fatal("No vif", "No interface found in the cfg_db for the write monitor");
 		end
 		`uvm_info(get_name(), $sformatf ("Monitor build phase ran!"), UVM_MEDIUM);

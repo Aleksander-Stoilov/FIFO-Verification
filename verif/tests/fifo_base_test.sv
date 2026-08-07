@@ -9,8 +9,8 @@ class fifo_base_test extends uvm_test;
 	fifo_wr_agent_config wr_cfg;
 	fifo_rd_agent_config rd_cfg;
 
-	virtual fifo_wr_if#() v_write_if;
-	virtual fifo_rd_if#() v_read_if;
+	virtual fifo_wr_if#(DATA_WIDTH_P) v_write_if;
+	virtual fifo_rd_if#(DATA_WIDTH_P) v_read_if;
 
 	function new(string name, uvm_component parent);
 		super.new(name, parent);
@@ -26,11 +26,11 @@ class fifo_base_test extends uvm_test;
 		env_cfg = fifo_env_config::type_id::create("env_cfg");
 	
 		// Proverqvai za greshki kogato izvikvash "uvm_config_db get";
-		if(!uvm_config_db#(virtual fifo_wr_if#())::get(this, "", "wr_if", v_write_if)) begin
+		if(!uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::get(this, "", "wr_if", v_write_if)) begin
 			`uvm_fatal("NOVIF:", "no virtual write interface found");
 		end
 
-		if(!uvm_config_db#(virtual fifo_rd_if#())::get(this, "", "rd_if", v_read_if)) begin
+		if(!uvm_config_db#(virtual fifo_rd_if#(DATA_WIDTH_P))::get(this, "", "rd_if", v_read_if)) begin
 			`uvm_fatal("NOVIF:", "no virtual read interface found");
 		end
 
