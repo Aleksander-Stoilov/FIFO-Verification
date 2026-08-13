@@ -15,8 +15,8 @@ module tb_top;
 	fifo_rd_if #(.DATA_WIDTH_P(DATA_WIDTH_P)) rd_if (.clk(clk), .rst_n(rst_n));
 
 	initial begin
-		uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::set(null, "uvm_test_top", "wr_if", wr_if);
-		uvm_config_db#(virtual fifo_rd_if#(DATA_WIDTH_P))::set(null, "uvm_test_top", "rd_if", rd_if);
+		uvm_config_db#(virtual fifo_wr_if#(DATA_WIDTH_P))::set(null, "", "wr_if", wr_if);
+		uvm_config_db#(virtual fifo_rd_if#(DATA_WIDTH_P))::set(null, "", "rd_if", rd_if);
 	end
 
 	fifo #(

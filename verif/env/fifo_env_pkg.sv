@@ -8,6 +8,8 @@ package fifo_env_package;
     import fifo_rd_agent_config_pkg::*;
 	import fifo_scoreboard_pkg::*;
 	import fifo_env_config_pkg::*;
+	import fifo_coverage_pkg::*;
+	import tb_params_pkg::*;
 	`include "fifo_env.sv"
 	
 endpackage : fifo_env_package

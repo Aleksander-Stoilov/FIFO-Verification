@@ -21,6 +21,9 @@
         +incdir+../scoreboard/
         ../scoreboard/fifo_scoreboard_pkg.sv
 
+        +incdir+../coverage/
+        ../coverage/fifo_coverage_pkg.sv
+
         +incdir+../env/
         ../env/fifo_env_config_pkg.sv
         ../env/fifo_env_pkg.sv
@@ -28,5 +31,5 @@
         +incdir+../tests/
         ../tests/fifo_tests_pkg.sv
 
-        ../top/tb_top.sv
         ../top/checker.sv
+        ../top/tb_top.sv

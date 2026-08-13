@@ -34,7 +34,9 @@ class fifo_rd_monitor extends uvm_monitor;
 
 		@(negedge internal_vif.rst_n) begin
 			`uvm_info(get_type_name(), "Reset asserted, from rd_monitor", UVM_LOW)
-			delay_flag = 0;
+			internal_vif.re <= 0;
+			internal_vif.re_delayed <= 0;
+			internal_vif.empty_delayed <= 1;
 		end
 
 		@(posedge internal_vif.rst_n) begin
