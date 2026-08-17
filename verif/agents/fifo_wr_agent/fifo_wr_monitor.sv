@@ -39,7 +39,7 @@ class fifo_wr_monitor extends uvm_monitor;
 
 		forever begin
 			@(posedge internal_vif.clk) begin
-				if(internal_vif.we) begin
+				if(internal_vif.we && !internal_vif.full) begin
 					tr = fifo_wr_transaction_item#()::type_id::create("ap transaction");
 					tr.wr_en = internal_vif.we;
 					tr.wdata = internal_vif.wrdata;

@@ -3,6 +3,7 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
 
     int rd_en_distribution;
     int number_of_transactions;
+    int count = 0;
     fifo_rd_transaction_item#() tr;
 
 
@@ -11,7 +12,7 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
     endfunction
 
     virtual task body();
-       while(number_of_transactions > 0) begin
+       while(count < number_of_transactions) begin
             tr = fifo_rd_transaction_item#()::type_id::create("tr");
             tr.rd_en_distribution = rd_en_distribution;
 
@@ -22,7 +23,7 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
 
             finish_item(tr);
             if(tr.re) begin
-                number_of_transactions--;
+                count++;
             end
        end
     endtask

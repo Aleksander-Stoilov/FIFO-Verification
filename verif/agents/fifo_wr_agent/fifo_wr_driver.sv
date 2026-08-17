@@ -36,17 +36,19 @@ class fifo_wr_driver extends uvm_driver#(fifo_wr_transaction_item#());
 		end
 
 		forever begin
-			seq_item_port.try_next_item(tr);
+			seq_item_port.get_next_item(tr);
 			@(posedge internal_vif.clk);
-			if(tr != null) begin
+			
 				while(!internal_vif.rst_n) begin
 					internal_vif.we <= 0;
 					internal_vif.wrdata <= 0;
-					@(posedge internal_vif.clk);
+//					@(posedge internal_vif.clk);
+					seq_item_port.item_done();
 				end
 
 				if(!tr.wr_en) begin
 					internal_vif.we <= 0;
+					seq_item_port.item_done();
 				end
 				else begin
 					while(internal_vif.full) begin					
@@ -55,14 +57,11 @@ class fifo_wr_driver extends uvm_driver#(fifo_wr_transaction_item#());
 
 					internal_vif.we <= 1;
 					internal_vif.wrdata <= tr.wdata;
+
+					seq_item_port.item_done();
 				end
 
-				seq_item_port.item_done();
 			end
-			else begin
-				internal_vif.we <= 0;
-			end
-		end
 
 	endtask
 endclass

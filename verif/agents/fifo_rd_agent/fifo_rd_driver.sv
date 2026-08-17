@@ -36,17 +36,17 @@ class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 		end
 
 		forever begin
-			seq_item_port.try_next_item(tr);
+			seq_item_port.get_next_item(tr);
 			@(posedge internal_vif.clk);
-			if(tr != null) begin	
 				// @(posedge internal_vif.clk);
 				while(!internal_vif.rst_n) begin
 					internal_vif.re <= 0;
-					@(posedge internal_vif.clk);
+					seq_item_port.item_done();
 				end
 
 				if(!tr.re) begin
 					internal_vif.re <= 0;
+					seq_item_port.item_done();
 				end
 				else begin
 					while(internal_vif.empty) begin
@@ -54,14 +54,9 @@ class fifo_rd_driver extends uvm_driver#(fifo_rd_transaction_item#());
 					end
 
 					internal_vif.re <= 1;
-				end
-	
-				seq_item_port.item_done();
+					seq_item_port.item_done();
+				end	
 			end
-			else begin
-				internal_vif.re <= 0;
-			end
-		end
 
 	endtask
 endclass
