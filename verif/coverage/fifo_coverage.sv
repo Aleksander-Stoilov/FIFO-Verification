@@ -5,6 +5,10 @@ class fifo_coverage extends uvm_component;
 	int we_0_full_1_cntr = 0;
 	int we_1_full_0_cntr = 0;
 	int we_1_full_1_cntr = 0;
+	int re_0_empty_0_cntr = 0;
+	int re_0_empty_1_cntr = 0;
+	int re_1_empty_0_cntr = 0;
+	int re_1_empty_1_cntr = 0;
 
 	virtual fifo_wr_if#(DATA_WIDTH_P) write_if;
 	virtual fifo_rd_if#(DATA_WIDTH_P) read_if;
@@ -44,6 +48,31 @@ class fifo_coverage extends uvm_component;
 			bins b16 = {16};
 			bins b32 = {32};
 		}
+	// Subtask 2, same as Subtask 1, but for read eanble && empty
+		re0empty0: coverpoint re_0_empty_0_cntr {
+			bins b4 = {4};
+			bins b8 = {8};
+			bins b16 = {16};
+			bins b32 = {32};
+		}
+		re0empty1: coverpoint re_0_empty_1_cntr {
+			bins b4 = {4};
+			bins b8 = {8};
+			bins b16 = {16};
+			bins b32 = {32};
+		}
+		re1empty0: coverpoint re_1_empty_0_cntr {
+			bins b4 = {4};
+			bins b8 = {8};
+			bins b16 = {16};
+			bins b32 = {32};
+		}
+		re1empty1: coverpoint re_1_empty_1_cntr {
+			bins b4 = {4};
+			bins b8 = {8};
+			bins b16 = {16};
+			bins b32 = {32};
+		}
 	endgroup
 
 	function new(string name="", uvm_component parent);
@@ -69,7 +98,7 @@ class fifo_coverage extends uvm_component;
 		forever begin
 			@(posedge write_if.clk);
 			if(write_if.rst_n) fifo_cg.sample();
-			// Logic to drive the counters
+			// Logic to drive the write && full counters
 			if(write_if.we == 0 && write_if.full == 0) begin
 				we_0_full_0_cntr++;	
 			end
@@ -95,6 +124,35 @@ class fifo_coverage extends uvm_component;
 			end
 			else begin	
 				we_1_full_1_cntr = 0;	
+			end
+
+			// Logic To drive the read && empty counters
+			if(read_if.re == 0 && read_if.empty == 0) begin
+				re_0_empty_0_cntr++;
+			end
+			else begin
+				re_0_empty_0_cntr = 0;
+			end
+
+			if(read_if.re == 0 && read_if.empty == 1) begin
+				re_0_empty_1_cntr++;
+			end
+			else begin
+				re_0_empty_1_cntr = 0;
+			end
+
+			if(read_if.re == 1 && read_if.empty == 0) begin
+				re_1_empty_0_cntr++;
+			end
+			else begin
+				re_1_empty_0_cntr = 0;
+			end
+
+			if(read_if.re == 1 && read_if.empty == 1) begin
+				re_1_empty_1_cntr++;
+			end
+			else begin
+				re_1_empty_1_cntr = 0;
 			end
 		end
 	endtask
