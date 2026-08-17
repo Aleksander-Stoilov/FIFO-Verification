@@ -1,21 +1,28 @@
 class fifo_coverage extends uvm_component;
 	`uvm_component_utils(fifo_coverage);
 
+	// Subtask 1 variables
 	bit [1:0] we_full_controller = 2'b00;
 	int we_0_full_0_cntr = 0;
 	int we_0_full_1_cntr = 0;
 	int we_1_full_0_cntr = 0;
 	int we_1_full_1_cntr = 0;
 
+	// Subtask 2 variables
 	bit [1:0] re_empty_controller = 2'b00;
 	int re_0_empty_0_cntr = 0;
 	int re_0_empty_1_cntr = 0;
 	int re_1_empty_0_cntr = 0;
 	int re_1_empty_1_cntr = 0;
 
+	// Subtask 3, 4, 5 variables
 	int we_1_re_1_empty_0_full_0_cntr = 0;
 	bit we_1_re_1_empty_1_full_0_flag = 0;
 	bit we_1_re_1_empty_0_full_1_flag = 0;
+	
+	// Subtask 6 flags
+	bit went_full = 0;	
+	bit went_empty_after_full = 0;
 
 	virtual fifo_wr_if#(DATA_WIDTH_P) write_if;
 	virtual fifo_rd_if#(DATA_WIDTH_P) read_if;
@@ -91,6 +98,38 @@ class fifo_coverage extends uvm_component;
 		flag_we1_re1_empty1: coverpoint we_1_re_1_empty_1_full_0_flag;
 	// Subtask 5, Cover the we = 1, re = 1, full == 1, empty = 0;
 		flag_we1_re1_full1: coverpoint we_1_re_1_empty_0_full_1_flag;
+	// Subtask 6, cover going from full -> empty
+		flag_from_full_to_empty: coverpoint went_empty_after_full;
+
+	// Subtask 7, we transition bins:
+		we_transitions_0_to_1: coverpoint write_if.we {
+			bins b1 = (0 => 0 => 0 => 1);
+			bins b2 = (0 => 0 => 1 => 0);
+			bins b3 = (0 => 1 => 0 => 0);
+			bins b4 = (1 => 0 => 0 => 0);
+		}
+
+		we_transitions_1_to_0: coverpoint write_if.we {
+			bins b1 = (1 => 1 => 1 => 0);
+			bins b2 = (1 => 1 => 0 => 1);
+			bins b3 = (1 => 0 => 1 => 1);
+			bins b4 = (0 => 1 => 1 => 1);
+		}
+
+	// Subtask 8, same as 7, but for re
+		re_transitions_0_to_1: coverpoint read_if.re {
+			bins b1 = (0 => 0 => 0 => 1);
+			bins b2 = (0 => 0 => 1 => 0);
+			bins b3 = (0 => 1 => 0 => 0);
+			bins b4 = (1 => 0 => 0 => 0);
+		}
+
+		re_transitions_1_to_0: coverpoint read_if.re {
+			bins b1 = (1 => 1 => 1 => 0);
+			bins b2 = (1 => 1 => 0 => 1);
+			bins b3 = (1 => 0 => 1 => 1);
+			bins b4 = (0 => 1 => 1 => 1);
+		}
 
 	endgroup
 

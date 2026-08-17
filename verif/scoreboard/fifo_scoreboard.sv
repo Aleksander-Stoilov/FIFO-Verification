@@ -39,7 +39,7 @@ class fifo_scoreboard extends uvm_scoreboard;
         end
     endfunction
 
-    function void write_WR(fifo_wr_transaction_item tr);
+    function void write_WR(fifo_wr_transaction_item#() tr);
         `uvm_info("SCB", $sformatf("Transaction write data: %h", tr.wdata), UVM_LOW);
         wr_count++;
         `uvm_info("SCB", $sformatf("Before push Queue: %p", tr_data), UVM_LOW);
@@ -48,7 +48,7 @@ class fifo_scoreboard extends uvm_scoreboard;
     endfunction
 
     logic [3:0] data;
-    function void write_RD(fifo_rd_transaction_item tr);
+    function void write_RD(fifo_rd_transaction_item#() tr);
         `uvm_info("SCB", $sformatf("Transaction read data: %h", tr.rdata), UVM_LOW);
         rd_count++;
         `uvm_info("SCB", $sformatf("Before pop Queue: %p", tr_data), UVM_LOW);

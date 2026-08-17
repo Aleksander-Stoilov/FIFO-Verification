@@ -3,17 +3,17 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
 
     int rd_en_distribution;
     int number_of_transactions;
-    int count = 0;
-    fifo_rd_transaction_item#() tr;
-
+    int count;
 
     function new(string name = "rd_sequence");
         super.new(name);
     endfunction
 
+    fifo_rd_transaction_item#() tr;
     virtual task body();
-       while(count < number_of_transactions) begin
-            tr = fifo_rd_transaction_item#()::type_id::create("tr");
+        count = 0;
+        while(count < number_of_transactions) begin
+            tr = fifo_rd_transaction_item#()::type_id::create("read_tr");
             tr.rd_en_distribution = rd_en_distribution;
 
             start_item(tr);
@@ -22,6 +22,8 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
                 else `uvm_fatal("FAILED RANDOMIZATION", "Failed to randomize read transaction");
 
             finish_item(tr);
+
+            `uvm_info(get_type_name(), $sformatf("Number of rd transactions passed: %d, number of total read transactions: %d", count, number_of_transactions), UVM_HIGH);
             if(tr.re) begin
                 count++;
             end
