@@ -4,16 +4,15 @@ class fifo_wr_sequence extends uvm_sequence #(fifo_wr_transaction_item#());
     int wr_en_distribution;
     int number_of_transactions;
     int count;
+    fifo_wr_transaction_item#() tr;
 
     function new(string name = "fifo_wr_sequence");
         super.new(name);
     endfunction
 
-    fifo_wr_transaction_item#() tr;
     virtual task body();
         count = 0;
         while (count < number_of_transactions) begin
- 
             tr = fifo_wr_transaction_item#()::type_id::create("write_tr");
             tr.wr_en_distribution = wr_en_distribution;
 

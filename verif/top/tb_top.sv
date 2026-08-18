@@ -59,7 +59,7 @@ module tb_top;
 
 
 	initial begin
-		run_test("fifo_write_read_test");
+		run_test("fifo_full_to_empty_test");
 	end
 
 	always @(posedge clk) begin

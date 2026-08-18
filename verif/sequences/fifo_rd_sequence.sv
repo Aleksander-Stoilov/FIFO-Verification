@@ -4,12 +4,12 @@ class fifo_rd_sequence extends uvm_sequence #(fifo_rd_transaction_item#());
     int rd_en_distribution;
     int number_of_transactions;
     int count;
+    fifo_rd_transaction_item#() tr;
 
     function new(string name = "rd_sequence");
         super.new(name);
     endfunction
 
-    fifo_rd_transaction_item#() tr;
     virtual task body();
         count = 0;
         while(count < number_of_transactions) begin

@@ -156,15 +156,17 @@ class fifo_coverage extends uvm_component;
 		forever begin
 			@(posedge write_if.clk);
 			if(write_if.rst_n) fifo_cg.sample();
+
 			// Logic to drive the write && full counters
 			we_full_controller = {write_if.we, write_if.full};
 			case (we_full_controller)
-				2'b00: begin
-					we_0_full_0_cntr++;	
-					we_0_full_1_cntr = 0;
-					we_1_full_0_cntr = 0;	
-					we_1_full_1_cntr = 0;	
-				end
+				2'b00: 
+					begin
+						we_0_full_0_cntr++;	
+						we_0_full_1_cntr = 0;
+						we_1_full_0_cntr = 0;	
+						we_1_full_1_cntr = 0;	
+					end
 				2'b01:
 					begin
 						we_0_full_0_cntr = 0;
@@ -194,28 +196,28 @@ class fifo_coverage extends uvm_component;
 				2'b00: begin
 					re_0_empty_0_cntr++;	
 					re_0_empty_1_cntr = 0;
-					re_0_empty_1_cntr = 0;	
+					re_1_empty_0_cntr = 0;	
 					re_1_empty_1_cntr = 0;	
 				end
 				2'b01:
 					begin
 						re_0_empty_0_cntr = 0;
 						re_0_empty_1_cntr++;
-						re_0_empty_1_cntr = 0;	
+						re_1_empty_0_cntr = 0;	
 						re_1_empty_1_cntr = 0;	
 					end
 				2'b10:
 					begin
 						re_0_empty_0_cntr = 0;
 						re_0_empty_1_cntr = 0;
-						re_0_empty_1_cntr++;	
+						re_1_empty_0_cntr++;	
 						re_1_empty_1_cntr = 0;	
 					end
 				2'b11:
 					begin
 						re_0_empty_0_cntr = 0;
 						re_0_empty_1_cntr = 0;
-						re_0_empty_1_cntr = 0;	
+						re_1_empty_0_cntr = 0;	
 						re_1_empty_1_cntr++;
 					end
 			endcase
@@ -238,6 +240,9 @@ class fifo_coverage extends uvm_component;
 				we_1_re_1_empty_1_full_0_flag = 1;
 			end
 
+			if(write_if.full) went_full = 1;
+
+			if(went_full && read_if.empty) went_empty_after_full = 1;
 		end
 	endtask
 endclass: fifo_coverage
